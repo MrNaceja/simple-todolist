@@ -3,30 +3,24 @@ import { Feather } from '@expo/vector-icons';
 import { styles } from "./styles";
 
 interface PropsTask {
-    taskName: string,
+    modelTask: ModelTask,
+    remove: (taskToRemove : ModelTask) => void
 }
 
-export type ModelTask = {
+export interface ModelTask {
     id: number,
     name: string
 }
 
-export default function Task({taskName} : PropsTask) {
+export default function Task({ modelTask, remove } : PropsTask) {
 
     function onPressDelete() {
-        Alert.alert('Deletar Tarefa', 'Você tem certeza desta ação?', [
-            {
-                text: 'Sim',
-                onPress: () => Alert.alert('Sucesso!', `Tarefa ${taskName} deletada`)
-            },
-            {
-                text: 'Não',
-            }
-        ])
+        remove(modelTask)
     }
+    
     return (
         <View style={styles.taskContainer}>
-            <Text style={styles.taskName}>{taskName}</Text>
+            <Text style={styles.taskName}>{modelTask.name}</Text>
             <TouchableHighlight style={styles.taskButtonDelete} onPress={onPressDelete}>
                 <Feather name="trash-2" size={18} color="#cb0b0a" />
             </TouchableHighlight>

@@ -1,20 +1,41 @@
-import { FlatList, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { styles } from "./styles";
 import { Feather } from "@expo/vector-icons";
 import Task, { ModelTask } from "../../components/Task";
+import { useState } from "react";
 
 export default function Home() {
-    const tasks : ModelTask[] = [
-        {id: 1, name: 'Eduardo'},
-        {id: 2, name: 'Narcizo'},
-        {id: 3, name: 'Neto'},
-        {id: 4, name: 'Toriani'},
-        {id: 5, name: 'Luana'},
-        {id: 6, name: 'Silva'},
-        {id: 7, name: 'Karsten'},
-        {id: 8, name: 'React'},
-        {id: 9, name: 'Native'}
-    ]
+    const [tasks, setTasks] = useState<ModelTask[]>([])
+    const [taskName, setTaskName] = useState('')
+
+    function addTask(taskToAdd: ModelTask) {
+        setTasks(prevTasks => [...prevTasks, taskToAdd])
+        setTaskName('')
+        Alert.alert('Sucesso!', 'Tarefa adicionada')
+    }
+
+    function removeTask(taskToRemove: ModelTask) {
+        Alert.alert('Deletar Tarefa', 'Você tem certeza desta ação?', [
+            {
+                text: 'Sim',
+                onPress: () => {
+                    setTasks(prevTasks => prevTasks.filter(task => task.id !== taskToRemove.id))
+                    Alert.alert('Sucesso!', `Tarefa ${taskToRemove.name} deletada`)
+                }
+            },
+            {
+                text: 'Não',
+            }
+        ])
+    }
+
+    function onPressAddTask() {
+        const newId = (tasks.length > 0 ? tasks[tasks.length - 1].id : 0) + 1;
+        const newTask : ModelTask = {id: newId, name: taskName}
+        addTask(newTask)
+    }
+
+    const buttonAddTaskIsDisabled = taskName.length == 0;
     
     return (
         <View style={styles.container}>
@@ -32,8 +53,14 @@ export default function Home() {
                     style={styles.input}
                     placeholder={'digite uma tarefa'}
                     placeholderTextColor='#5c6b73'
+                    value={taskName}
+                    onChangeText={setTaskName}
                 />
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={onPressAddTask} 
+                    disabled={buttonAddTaskIsDisabled}
+                >
                     <Feather name="plus-circle" size={18} color="#fff" />
                 </TouchableOpacity>
             </View>
@@ -41,9 +68,9 @@ export default function Home() {
                 data={tasks}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle ={styles.tasksList}
-                keyExtractor={task => task.id.toString()}
+                keyExtractor={(task) => task.id.toString()}
                 renderItem ={({item: task}) => (
-                    <Task taskName={task.name}/>
+                    <Task modelTask={task} remove={removeTask}/>
                 )}
             />
         </View>
