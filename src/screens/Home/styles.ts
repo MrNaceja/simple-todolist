@@ -43,6 +43,6 @@ export const styles = StyleSheet.create({
         fontSize: 26
     },
     tasksList: {
-        gap: 5
+        gap: 5,
     }
 })

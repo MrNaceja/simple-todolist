@@ -8,14 +8,14 @@ export const styles = StyleSheet.create({
         height: 60,
         flexDirection: 'row',
         alignItems:"center",
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     taskName: {
         color: '#e6e6e6b4',
         flex: 1,
     },
     taskButtonDelete: {
-        backgroundColor:'#cb0b0a',
+        backgroundColor: '#62010c80',
         alignItems: 'center',
         height: '100%',
         width: 60,
