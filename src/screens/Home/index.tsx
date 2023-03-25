@@ -67,10 +67,13 @@ export default function Home() {
             <FlatList 
                 data={tasks}
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle ={styles.tasksList}
+                contentContainerStyle = {tasks.length > 0 ? styles.tasksList : styles.tasksListEmpty}
                 keyExtractor={(task) => task.id.toString()}
                 renderItem ={({item: task}) => (
                     <Task modelTask={task} remove={removeTask}/>
+                )}
+                ListEmptyComponent={(
+                    <Text style={styles.noTasks}>Você ainda não possui tarefas :(</Text>
                 )}
             />
         </View>

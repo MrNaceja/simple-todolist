@@ -44,5 +44,14 @@ export const styles = StyleSheet.create({
     },
     tasksList: {
         gap: 5,
+    },
+    tasksListEmpty: {
+        flex:1,
+        alignItems:'center',
+        justifyContent: 'center'
+    },
+    noTasks: {
+        textAlign: 'center',
+        color: '#e6e6e6b4'
     }
 })
