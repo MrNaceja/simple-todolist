@@ -20,7 +20,7 @@ export default function Home() {
                 text: 'Sim',
                 onPress: () => {
                     setTasks(prevTasks => prevTasks.filter(task => task.id !== taskToRemove.id))
-                    Alert.alert('Sucesso!', `Tarefa ${taskToRemove.name} deletada`)
+                    Alert.alert('Sucesso!', `Tarefa deletada`)
                 }
             },
             {
